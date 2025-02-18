@@ -53,3 +53,12 @@ tr:hover {
 .search-input::placeholder {
   color: #999;
 }
+
+.sortable {
+  cursor: pointer;
+  user-select: none;
+}
+
+.sortable:hover {
+  background-color: #353c47;
+}

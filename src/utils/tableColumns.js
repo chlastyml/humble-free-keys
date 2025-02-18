@@ -1,3 +1,5 @@
+import React from "react";
+
 export function getGameColumns(columnHelper) {
   return [
     columnHelper.accessor("name", {
@@ -15,10 +17,12 @@ export function getGameColumns(columnHelper) {
 
         return info.getValue();
       },
+      sortingFn: "alphanumeric",
     }),
     columnHelper.accessor("platform", {
       header: "Platform",
       cell: (info) => info.getValue(),
+      sortingFn: "alphanumeric",
     }),
     columnHelper.accessor("release_date", {
       header: "Release Date",

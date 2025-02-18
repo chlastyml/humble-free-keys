@@ -29,14 +29,26 @@ function getGameItem(elements, index) {
   const game = {
     platform: getPlatform(elements.item(index)),
     name: elements.item(index).children.item(1).children.item(0).innerText,
-    link: null,
   };
 
   if (game.platform === HUMBLE_CHOICE_PLATFORM) {
-    game.link = elements.item(index).children.item(2).children.item(0).href;
+    const link = elements.item(index).children.item(2).children.item(0).href;
+
+    return {
+      ...game,
+      link,
+    };
   }
 
-  return game;
+  return {
+    ...game,
+    link: null,
+    releaseDate: null,
+    score: null,
+    lastUpdateDate: null,
+    developer: null,
+    publisher: null,
+  };
 }
 
 function getGameForPage() {
