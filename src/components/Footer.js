@@ -6,7 +6,7 @@ function Footer() {
 
   return (
     <footer className="footer">
-      <p>&copy; {currentYear} Your Company Name. All rights reserved.</p>
+      <p>&copy; {currentYear} All rights reserved.</p>
     </footer>
   );
 }

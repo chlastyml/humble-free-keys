@@ -37,7 +37,44 @@
   {
     "platform": "Humble Choice",
     "name": "JUNE 2024 HUMBLE CHOICE",
-    "link": "https://www.humblebundle.com/membership/june-2024"
+    "link": "https://www.humblebundle.com/membership/june-2024",
+    "games": [
+      {
+        "name": "RISK OF RAIN 2",
+        "platform": "steam",
+        "link": null
+      },
+      {
+        "name": "LEGO® 2K DRIVE AWESOME EDITION",
+        "platform": "steam",
+        "link": null
+      },
+      {
+        "name": "WARHAMMER 40,000: BATTLESECTOR",
+        "platform": "steam",
+        "link": null
+      },
+      {
+        "name": "MIASMA CHRONICLES",
+        "platform": "steam",
+        "link": null
+      },
+      {
+        "name": "STRAY GODS: THE ROLEPLAYING MUSICAL",
+        "platform": "steam",
+        "link": null
+      },
+      {
+        "name": "A GUIDEBOOK OF BABEL",
+        "platform": "steam",
+        "link": null
+      },
+      {
+        "name": "EMPYRION - GALACTIC SURVIVAL",
+        "platform": "steam",
+        "link": null
+      }
+    ]
   },
   {
     "platform": "Humble Choice",

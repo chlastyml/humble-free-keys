@@ -5,11 +5,9 @@
 .App-header {
   background-color: #282c34;
   padding: 1rem;
-  margin-bottom: 2rem;
 }
 
 .content {
-  padding: 2rem;
   max-width: 800px;
   margin: 0 auto;
   margin-bottom: 80px; /* Add space for footer */

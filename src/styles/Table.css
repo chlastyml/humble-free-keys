@@ -1,0 +1,55 @@
+.table-container {
+  margin: 20px;
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: white;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+th,
+td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+th {
+  background-color: #282c34;
+  color: white;
+}
+
+tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+tr:hover {
+  background-color: #ddd;
+}
+
+.search-container {
+  margin: 20px;
+  display: flex;
+  justify-content: flex-start;
+}
+
+.search-input {
+  padding: 8px 12px;
+  border: 2px solid #282c34;
+  border-radius: 4px;
+  font-size: 16px;
+  width: 300px;
+  transition: border-color 0.3s;
+}
+
+.search-input:focus {
+  outline: none;
+  border-color: #404754;
+}
+
+.search-input::placeholder {
+  color: #999;
+}
