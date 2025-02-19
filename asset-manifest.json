@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/humble-free-keys/static/css/main.c0e1f4ab.css",
-    "main.js": "/humble-free-keys/static/js/main.e145c42e.js",
+    "main.js": "/humble-free-keys/static/js/main.6445b480.js",
     "static/js/453.1546c3a2.chunk.js": "/humble-free-keys/static/js/453.1546c3a2.chunk.js",
     "index.html": "/humble-free-keys/index.html",
     "main.c0e1f4ab.css.map": "/humble-free-keys/static/css/main.c0e1f4ab.css.map",
-    "main.e145c42e.js.map": "/humble-free-keys/static/js/main.e145c42e.js.map",
+    "main.6445b480.js.map": "/humble-free-keys/static/js/main.6445b480.js.map",
     "453.1546c3a2.chunk.js.map": "/humble-free-keys/static/js/453.1546c3a2.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.c0e1f4ab.css",
-    "static/js/main.e145c42e.js"
+    "static/js/main.6445b480.js"
   ]
 }
