@@ -73,3 +73,39 @@ td img {
 td:first-child {
   padding: 4px 12px;
 }
+
+.filters-container {
+  margin: 20px;
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.platform-select {
+  padding: 8px 12px;
+  border: 2px solid #282c34;
+  border-radius: 4px;
+  font-size: 16px;
+  background-color: white;
+  min-width: 150px;
+  cursor: pointer;
+}
+
+.platform-select:focus {
+  outline: none;
+  border-color: #404754;
+}
+
+.library-title {
+  margin: 0;
+  white-space: nowrap;
+}
+
+.search-input {
+  min-width: 300px;
+}
+
+.platform-select {
+  min-width: 150px;
+}

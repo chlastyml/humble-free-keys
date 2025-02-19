@@ -1,6 +1,5 @@
 import React from "react";
-import { FaSteam, FaGamepad } from "react-icons/fa";
-import { SiOrigin, SiUbisoft, SiEpicgames, SiGogdotcom } from "react-icons/si";
+import { getPlatformDisplay } from "./platformUtils";
 
 const getRatingColor = (score) => {
   if (score >= 90) return "#4CAF50"; // Green
@@ -8,25 +7,6 @@ const getRatingColor = (score) => {
   if (score >= 70) return "#FFC107"; // Amber
   if (score >= 60) return "#FF9800"; // Orange
   return "#F44336"; // Red
-};
-
-const getPlatformIcon = (platform) => {
-  const iconStyle = { fontSize: "20px" };
-
-  switch (platform?.toLowerCase()) {
-    case "steam":
-      return <FaSteam style={iconStyle} title="Steam" />;
-    case "origin":
-      return <SiOrigin style={iconStyle} title="Origin" />;
-    case "uplay":
-      return <SiUbisoft style={iconStyle} title="Ubisoft" />;
-    case "epic":
-      return <SiEpicgames style={iconStyle} title="Epic Games" />;
-    case "gog":
-      return <SiGogdotcom style={iconStyle} title="GOG" />;
-    default:
-      return <FaGamepad style={iconStyle} title={platform || "Other"} />;
-  }
 };
 
 export function getGameColumns(columnHelper) {
@@ -52,11 +32,10 @@ export function getGameColumns(columnHelper) {
     }),
     columnHelper.accessor("platform", {
       header: () => <div style={{ textAlign: "center" }}>Platform</div>,
-      cell: (info) => (
-        <div style={{ textAlign: "center" }}>
-          {getPlatformIcon(info.getValue())}
-        </div>
-      ),
+      cell: (info) => {
+        const { icon } = getPlatformDisplay(info.getValue(), true);
+        return <div style={{ textAlign: "center" }}>{icon}</div>;
+      },
       enableSorting: false,
     }),
     columnHelper.accessor("name", {

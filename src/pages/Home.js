@@ -3,16 +3,23 @@ import { flexRender } from "@tanstack/react-table";
 import games from "../data/games.json";
 import "../styles/Table.css";
 import { useGamesTable } from "../hooks/useGamesTable";
+import { getPlatformDisplay } from "../utils/platformUtils";
 
 function Home() {
-  const { table, nameFilter, handleSearch } = useGamesTable(games);
+  const {
+    table,
+    nameFilter,
+    handleSearch,
+    platforms,
+    platformFilter,
+    handlePlatformChange,
+  } = useGamesTable(games);
 
   console.log("render");
 
   return (
     <div>
-      <h2>Games Library</h2>
-      <div className="search-container">
+      <div className="filters-container">
         <input
           type="text"
           value={nameFilter}
@@ -20,6 +27,21 @@ function Home() {
           placeholder="Search games..."
           className="search-input"
         />
+        <h2 className="library-title">Games Library</h2>
+        <select
+          value={platformFilter}
+          onChange={handlePlatformChange}
+          className="platform-select"
+        >
+          {platforms.map((platform) => {
+            const { icon, name } = getPlatformDisplay(platform);
+            return (
+              <option key={platform} value={platform}>
+                {icon} {name}
+              </option>
+            );
+          })}
+        </select>
       </div>
       <div className="table-container">
         <table>
