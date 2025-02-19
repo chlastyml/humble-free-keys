@@ -6,7 +6,9 @@ const gamesFullDir = "data/games_full.json";
 const errorDir = "data/error.txt";
 
 function normaizeName(name = "") {
-  return name.trim().replaceAll(" + ", " ").replaceAll(" ", "+").toLowerCase();
+  return name.trim().split("+")[0].replaceAll(" ", "+").toLowerCase();
+
+  //return name.trim().replaceAll(" + ", " ").replaceAll(" ", "+").toLowerCase();
 }
 
 async function closeAllPages(browser) {
@@ -25,7 +27,7 @@ async function closeAllPages(browser) {
 async function main() {
   const inputGames = JSON.parse(
     fs.readFileSync(gamesDir, { encoding: "utf8", flag: "r" })
-  ); //.slice(0, 2);
+  ); //.slice(3, 4);
 
   const loadedGames = JSON.parse(
     fs.readFileSync(gamesFullDir, { encoding: "utf8", flag: "r" })
@@ -63,14 +65,24 @@ async function main() {
   const fullGames = loadedGames ?? [];
   const errors = [];
 
-  const baseUrl = `https://www.google.com/search?q=steam+`;
+  const baseUrl = `https://www.google.com/search?q=steam+game+`;
 
   for (let i = 0; i < inputGames.length; i++) {
     const gameRaw = inputGames[i];
 
     if (loadedGames.find((g) => g.name === gameRaw.name)) {
+      console.log(i, "z", inputGames.length, "| Preskoceno: ", gameRaw.name);
+
       continue;
     }
+
+    console.log(
+      i,
+      "z",
+      inputGames.length,
+      "| Zahajeni parsovani: ",
+      gameRaw.name
+    );
 
     let gameWithInfo = {
       name: gameRaw.name,
@@ -85,100 +97,136 @@ async function main() {
 
     try {
       if (gameWithInfo.platform === "steam") {
-        await page.goto(baseUrl + normaizeName(gameRaw.name), {
-          waitUntil: "networkidle2",
-        }); // Nahraď správnou URL
-
-        await Promise.all([
-          page.click("h3"),
-          page.waitForNavigation({ waitUntil: "networkidle2" }),
-        ]);
-
-        steamInfo = await page.evaluate(() => {
-          const url = window.location.href;
-
-          const info_element = document
-            .getElementsByClassName("glance_ctn_responsive_left")
-            .item(0);
-
-          const reviews_els = info_element
-            .getElementsByClassName("user_reviews")
-            .item(0)
-            .getElementsByClassName("summary column");
-
-          const score = reviews_els
-            .item(reviews_els.length - 1)
-            .innerText.replace("%", "");
-
-          const release_date = info_element
-            .getElementsByClassName("release_date")
-            .item(0)
-            .getElementsByClassName("date")
-            .item(0).innerText;
-
-          let last_update_date = null;
-
+        if (gameRaw.link) {
+          // Načtení steam stránky
           try {
-            last_update_date = info_element
-              .getElementsByClassName("steamdb_last_update")
-              .item(0)
-              .getElementsByClassName("date")
-              .item(0)
-              .innerText.split("(")[0]
-              .trim();
-          } catch {}
-
-          const developer_item = last_update_date ? 1 : 0;
-          const publisher_item = last_update_date ? 2 : 1;
-
-          const developer_el = document
-            .getElementsByClassName("glance_ctn_responsive_left")
-            .item(0)
-            .getElementsByClassName("dev_row")
-            .item(developer_item)
-            .getElementsByTagName("a")
-            .item(0);
-
-          const developer = {
-            name: developer_el.innerText,
-            link: developer_el.href.split("?")[0],
-          };
-
-          const publisher_el = document
-            .getElementsByClassName("glance_ctn_responsive_left")
-            .item(0)
-            .getElementsByClassName("dev_row")
-            .item(publisher_item)
-            .getElementsByTagName("a")
-            .item(0);
-
-          const publisher = {
-            name: publisher_el.innerText,
-            link: publisher_el.href.split("?")[0],
-          };
-
-          let price = null;
-
-          try {
-            price = {
-              value: Number(
-                document
-                  .getElementsByClassName("game_purchase_price price")
-                  .item(0)
-                  .innerHTML.trim()
-                  .split("(")[1]
-                  //.replace(")", "")
-                  .replace("€)", "")
-                  .replace(",", ".")
-              ),
-              discount: 0,
-            };
+            await page.goto(gameRaw.link, { waitUntil: "networkidle2" });
           } catch {
+            console.error("Chyba pri nacitani google stranky");
+
+            throw new Error("Nacteni steam stranky");
+          }
+        } else {
+          // Načtení stránky
+          try {
+            await page.goto(
+              baseUrl + normaizeName(gameRaw.alternative_name ?? gameRaw.name),
+              {
+                waitUntil: "networkidle2",
+              }
+            );
+          } catch {
+            console.error("Chyba pri nacitani google stranky");
+
+            throw new Error("Nacteni google stranky");
+          }
+
+          // Kliknuti na prvni odkaz
+          try {
+            await Promise.all([
+              page.click("h3"),
+              page.waitForNavigation({ waitUntil: "networkidle2" }),
+            ]);
+          } catch {
+            console.error("Chyba pri nacitani steam stranky");
+
+            throw new Error("Nacteni steam stranky");
+          }
+        }
+
+        // Kontrola nevhodneho obsahu
+        try {
+          await Promise.all([
+            page.click("#view_product_page_btn"),
+            page.waitForNavigation({ waitUntil: "networkidle2" }),
+          ]);
+        } catch {}
+
+        const link = await page.evaluate(() => window.location.href);
+
+        let steamInfoPart = {};
+
+        try {
+          steamInfoPart = await page.evaluate(() => {
+            const thumbnail = document
+              .getElementsByClassName("game_header_image_full")
+              .item(0).src;
+
+            const info_element = document
+              .getElementsByClassName("glance_ctn_responsive_left")
+              .item(0);
+
+            const score_el = info_element
+              .getElementsByClassName("steamdb_rating")
+              .item(0);
+
+            const score = score_el.innerText.replace("%", "");
+            const steamdb_link = score_el.href;
+
+            let release_date = null;
+
+            try {
+              release_date = info_element
+                .getElementsByClassName("release_date")
+                .item(0)
+                .getElementsByClassName("date")
+                .item(0).innerText;
+            } catch {}
+
+            let last_update_date = null;
+
+            try {
+              last_update_date = info_element
+                .getElementsByClassName("steamdb_last_update")
+                .item(0)
+                .getElementsByClassName("date")
+                .item(0)
+                .innerText.split("(")[0]
+                .trim();
+            } catch {
+              console.log("Chyba pri parsovani posledni aktualizace");
+            }
+
+            const developer_item = last_update_date ? 1 : 0;
+            const publisher_item = last_update_date ? 2 : 1;
+
+            const developer_el = document
+              .getElementsByClassName("glance_ctn_responsive_left")
+              .item(0)
+              .getElementsByClassName("dev_row")
+              .item(developer_item)
+              .getElementsByTagName("a")
+              .item(0);
+
+            const developer = {
+              name: developer_el.innerText,
+              link: developer_el.href.split("?")[0],
+            };
+
+            let publisher = null;
+
+            try {
+              const publisher_el = document
+                .getElementsByClassName("glance_ctn_responsive_left")
+                .item(0)
+                .getElementsByClassName("dev_row")
+                .item(publisher_item)
+                .getElementsByTagName("a")
+                .item(0);
+
+              publisher = {
+                name: publisher_el.innerText,
+                link: publisher_el.href.split("?")[0],
+              };
+            } catch {}
+
+            let price = null;
+
             try {
               price = {
-                value: Number(
+                actual_value: Number(
                   document
-                    .getElementsByClassName("discount_final_price")
+                    .getElementsByClassName("game_purchase_price price")
                     .item(0)
                     .innerHTML.trim()
                     .split("(")[1]
@@ -186,50 +234,95 @@ async function main() {
                     .replace("€)", "")
                     .replace(",", ".")
                 ),
-                discount: Number(
-                  document
-                    .getElementsByClassName("discount_pct")
-                    .item(0)
-                    .innerText.replace("-", "")
-                    .replace("%", "")
-                ),
               };
-            } catch {}
-          }
+            } catch {
+              try {
+                price = {
+                  actual_value: Number(
+                    document
+                      .getElementsByClassName("discount_final_price")
+                      .item(0)
+                      .innerHTML.trim()
+                      .split("(")[1]
+                      //.replace(")", "")
+                      .replace("€)", "")
+                      .replace(",", ".")
+                  ),
+                  discount: Number(
+                    document
+                      .getElementsByClassName("discount_pct")
+                      .item(0)
+                      .innerText.replace("-", "")
+                      .replace("%", "")
+                  ),
+                  original_value: Number(
+                    document
+                      .getElementsByClassName("discount_original_price")
+                      .item(0)
+                      .innerHTML.trim()
+                      .split("(")[1]
+                      //.replace(")", "")
+                      .replace("€)", "")
+                      .replace(",", ".")
+                  ),
+                };
+              } catch {
+                console.log("Chyba pri parsovani ceny");
+              }
+            }
 
-          let location = true;
+            let location = true;
 
-          try {
-            location =
-              document
-                .getElementsByClassName("notice_box_content")
-                .item(0)
-                .getElementsByTagName("b").length === 0;
-          } catch {}
+            try {
+              location =
+                document
+                  .getElementsByClassName("notice_box_content")
+                  .item(0)
+                  .getElementsByTagName("b").length === 0;
+            } catch {
+              console.log("Chyba pri parsovani lokalizace");
+            }
 
-          const owned =
-            document.getElementsByClassName("ds_owned_flag ds_flag").length ===
-            1;
+            const owned =
+              document.getElementsByClassName("ds_owned_flag ds_flag")
+                .length === 1;
 
-          return {
-            link: url,
-            score: Number(score),
-            releaseDate: release_date,
-            lastUpdateDate: last_update_date,
-            developer,
-            publisher,
-            price,
-            owned,
-            location,
-          };
-        });
+            return {
+              //link: url,
+              thumbnail,
+              rating: {
+                score: Number(score),
+                link: steamdb_link,
+              },
+              releaseDate: release_date,
+              lastUpdateDate: last_update_date,
+              developer,
+              publisher,
+              price,
+              owned,
+              location,
+            };
+          });
+        } catch (error) {
+          console.error("Chyba pri parsovani obsahu: ", error);
+
+          errors.push({ name: gameWithInfo.name, error: error.msg });
+
+          fs.writeFileSync(errorDir, JSON.stringify(errors, null, 2));
+
+          continue;
+        }
+
+        steamInfo = { link, ...steamInfoPart };
       }
 
       fullGames.push({ ...gameWithInfo, steamInfo });
 
       fs.writeFileSync(gamesFullDir, JSON.stringify(fullGames, null, 2));
-    } catch {
-      errors.push(gameWithInfo.name);
+    } catch (error) {
+      console.error(error);
+
+      errors.push({ name: gameWithInfo.name, error: error.msg });
 
       fs.writeFileSync(errorDir, JSON.stringify(errors, null, 2));
     }

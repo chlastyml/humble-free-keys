@@ -1624,7 +1624,7 @@
     }
   },
   {
-    "name": "Aces &amp; Adventures",
+    "name": "Aces & Adventures",
     "platform": "steam",
     "link": null,
     "releaseDate": null,
@@ -2544,9 +2544,10 @@
     }
   },
   {
+    "alternative_name": "Monster Train",
     "name": "Monster Train (First Class - Collectors Edition)",
     "platform": "steam",
-    "link": null,
+    "link": "https://store.steampowered.com/app/1102190/Monster_Train",
     "releaseDate": null,
     "score": null,
     "lastUpdateDate": null,
@@ -2992,7 +2993,7 @@
     }
   },
   {
-    "name": "Command &amp; Conquer Remastered Collection",
+    "name": "Command & Conquer Remastered Collection",
     "platform": "origin",
     "link": null,
     "releaseDate": null,
@@ -3476,7 +3477,7 @@
   {
     "platform": "Steam",
     "name": "PGA Tour 2K21",
-    "link": null,
+    "link": "https://store.steampowered.com/app/1016120/PGA_TOUR_2K21/",
     "releaseDate": null,
     "score": null,
     "lastUpdateDate": null,
@@ -4236,7 +4237,7 @@
   {
     "name": "PGA TOUR 2K21",
     "platform": "steam",
-    "link": null,
+    "link": "https://store.steampowered.com/app/1016120/PGA_TOUR_2K21/",
     "releaseDate": null,
     "score": null,
     "lastUpdateDate": null,
@@ -5018,7 +5019,7 @@
     }
   },
   {
-    "name": "Rock of Ages 3: Make &amp; Break",
+    "name": "Rock of Ages 3: Make & Break",
     "platform": "steam",
     "link": null,
     "releaseDate": null,
@@ -6230,7 +6231,7 @@
   {
     "name": "Age of Wonders: Planetfall - Deluxe Edition",
     "platform": "steam",
-    "link": null,
+    "link": "https://store.steampowered.com/app/718850/Age_of_Wonders_Planetfall/",
     "releaseDate": null,
     "score": null,
     "lastUpdateDate": null,
@@ -6404,7 +6405,7 @@
   {
     "name": "GRID™ - Ultimate Edition",
     "platform": "steam",
-    "link": null,
+    "link": "https://store.steampowered.com/app/703860/GRID/",
     "releaseDate": null,
     "score": null,
     "lastUpdateDate": null,
@@ -6444,9 +6445,9 @@
     }
   },
   {
-    "name": "Men of War: Assault Squad 2 - Warchest Edition&nbsp;",
+    "name": "Men of War: Assault Squad 2 - Warchest Edition",
     "platform": "steam",
-    "link": null,
+    "link": "https://store.steampowered.com/app/244450/Men_of_War_Assault_Squad_2/",
     "releaseDate": null,
     "score": null,
     "lastUpdateDate": null,
@@ -7388,7 +7389,7 @@
   {
     "platform": "Steam",
     "name": "Override: Mech City Brawl",
-    "link": null,
+    "link": "https://store.steampowered.com/app/709440/Override_Mech_City_Brawl/",
     "releaseDate": null,
     "score": null,
     "lastUpdateDate": null,
@@ -8097,16 +8098,6 @@
   },
   {
     "platform": "Steam",
-    "name": "Rapture Rejects - Humble Exclusive \"Safari Outfit\" DLC",
-    "link": null,
-    "releaseDate": null,
-    "score": null,
-    "lastUpdateDate": null,
-    "developer": null,
-    "publisher": null
-  },
-  {
-    "platform": "Steam",
     "name": "Rock of Ages 2: Bigger & Boulder™",
     "link": null,
     "releaseDate": null,
@@ -8178,7 +8169,7 @@
   {
     "platform": "Steam",
     "name": "Project CARS 2",
-    "link": null,
+    "link": "https://store.steampowered.com/app/378860/Project_CARS_2/",
     "releaseDate": null,
     "score": null,
     "lastUpdateDate": null,
@@ -8338,7 +8329,7 @@
   {
     "platform": "Steam",
     "name": "Sniper Elite V2",
-    "link": null,
+    "link": "https://store.steampowered.com/app/728740/Sniper_Elite_V2_Remastered/",
     "releaseDate": null,
     "score": null,
     "lastUpdateDate": null,
@@ -8737,16 +8728,6 @@
   },
   {
     "platform": "Steam",
-    "name": "JYDGE",
-    "link": null,
-    "releaseDate": null,
-    "score": null,
-    "lastUpdateDate": null,
-    "developer": null,
-    "publisher": null
-  },
-  {
-    "platform": "Steam",
     "name": "Rakuen",
     "link": null,
     "releaseDate": null,
@@ -8788,7 +8769,7 @@
   {
     "platform": "Steam",
     "name": "Laser League",
-    "link": null,
+    "link": "https://store.steampowered.com/app/570460/Laser_League_World_Arena/",
     "releaseDate": null,
     "score": null,
     "lastUpdateDate": null,
@@ -8998,7 +8979,7 @@
   {
     "platform": "Steam",
     "name": "NBA 2K16",
-    "link": null,
+    "link": "https://store.steampowered.com/app/370240/NBA_2K16/",
     "releaseDate": null,
     "score": null,
     "lastUpdateDate": null,
@@ -9128,7 +9109,7 @@
   {
     "platform": "Steam",
     "name": "The Lord of the Rings Online: Steely Dawn Starter Pack",
-    "link": null,
+    "link": "https://store.steampowered.com/app/212500/The_Lord_of_the_Rings_Online/",
     "releaseDate": null,
     "score": null,
     "lastUpdateDate": null,

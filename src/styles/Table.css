@@ -62,3 +62,14 @@ tr:hover {
 .sortable:hover {
   background-color: #353c47;
 }
+
+td img {
+  display: block;
+  max-width: 120px;
+  height: auto;
+}
+
+/* Adjust cell padding for thumbnail column */
+td:first-child {
+  padding: 4px 12px;
+}
